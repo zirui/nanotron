@@ -5,7 +5,6 @@ from nanotron.config import (
     CheckpointsArgs,
     Config,
     DataArgs,
-    DatasetStageArgs,
     GeneralArgs,
     LlamaConfig,
     LoggingArgs,
@@ -25,19 +24,19 @@ model_config = LlamaConfig(
     bos_token_id=1,
     eos_token_id=2,
     hidden_act="silu",
-    hidden_size=16,
+    hidden_size=1024,
     initializer_range=0.02,
-    intermediate_size=64,
-    max_position_embeddings=256,
+    intermediate_size=1024,
+    max_position_embeddings=50277,
     num_attention_heads=4,
-    num_hidden_layers=2,
+    num_hidden_layers=12,
     num_key_value_heads=4,
     pretraining_tp=1,
     rms_norm_eps=1e-05,
     rope_scaling=None,
     tie_word_embeddings=True,
     use_cache=True,
-    vocab_size=256,
+    vocab_size=50277,
 )
 
 num_params = human_format(
@@ -96,12 +95,7 @@ config = Config(
     optimizer=optimizer,
     logging=LoggingArgs(),
     tokens=tokens,
-    data_stages=[
-        DatasetStageArgs(
-            name="Stable Training Stage", start_training_step=1, data=DataArgs(dataset=dataset, seed=seed)
-        ),
-        DatasetStageArgs(name="Annealing Phase", start_training_step=10, data=DataArgs(dataset=dataset, seed=seed)),
-    ],
+    data=DataArgs(dataset=dataset, seed=seed),
     profiler=None,
 )
 
