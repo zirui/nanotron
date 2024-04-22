@@ -75,10 +75,11 @@ def get_dataloader(trainer: DistributedTrainer):
             # We load the raw dataset
             raw_dataset = get_datasets(
                 hf_dataset_or_datasets=trainer.config.data.dataset.hf_dataset_or_datasets,
+                hf_dataset_config_name=trainer.config.data.dataset.hf_dataset_config_name,
                 splits=trainer.config.data.dataset.hf_dataset_splits,
             )["train"]
 
-            tokenizer = AutoTokenizer.from_pretrained(tokenizer_path)
+            tokenizer = AutoTokenizer.from_pretrained(tokenizer_path, use_fast=False)
             tokenizer.pad_token = tokenizer.eos_token
             tokenizer.padding_side = "left"
 
